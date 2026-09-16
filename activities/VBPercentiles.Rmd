@@ -40,6 +40,8 @@ team_aces |> mutate(percentile = ntile(total_aces, 100))
 Write a couple of sentences that puts Maryland into context with the other teams in the dataset. You can do some Internet research to help with this.
 
 
+Maryland woman's volleyball sits in the top 5 percent of all NCAA Division 1 teams for the most service aces in 2024. Maryland had 223, compared to the No. 1 seated University of Texas-El Paso. A service ace happens when the server strikes the ball directly in the opponent's court, scoring immediately and stopping the opposing team from legally returning the ball. Servers can use this as a strategy in throwing off the team's flow or game. 
+
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
 
