@@ -68,3 +68,19 @@ Baltimore, Maryland's most populous city at 588,593 residents, saw a 15% decreas
 ### Task 9: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
+
+### Task 10: Calculating Percentiles
+
+```{r}
+md_cities_percentiles <- md_cities_rates |> mutate (percentile = ntile(md_cities_rates$violent_rate_2020 , n = 100))
+md_cities_percentiles |> summarize (IQR = IQR (violent_rate_2020))
+```
+### Task 10 cont: HW5 Response
+
+How many cities are above the 90th percentile? Do the results change your best story idea from the previous assignment? Why or why not?
+
+ANSWER HERE
+
+There are 10 cities above the 90th percentile. Relative to Maryland's own data by cities, it seems like there are more places with low crime rather than high crime. I'm not sure how much the new info from the calculating percentiles and the IQR would affect my story idea, since I was focusing on something much broader. But if I were to specifically be looking at how the pandemic influenced these rates, I don't think the news info would change that story, it would simply add on to it. 
+
+
