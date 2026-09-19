@@ -9,6 +9,9 @@ In this assignment, we will be working with a dataset of total crimes reported b
 You will need to load the tidyverse library and the janitor library
 
 ```{r}
+library(tidyverse)
+install.packages("janitor")
+library(janitor)
 ```
 
 Then you'll load the data from the web. The URL for the data is: https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/md_cities_crime_2019_2020.csv. You will create a dataframe called `md_cities` that contains the data from this URL.
@@ -16,12 +19,14 @@ Then you'll load the data from the web. The URL for the data is: https://raw.git
 ### Task 2: Load the Data
 
 ```{r}
+md_cities <- read.csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/md_cities_crime_2019_2020.csv")
 ```
 ### Task 3: Calculating Rates
 
 Calculate violent and property crime rates for each city for both years using `mutate()`. You'll create four new columns: `violent_rate_2019`, `property_rate_2019`, `violent_rate_2020`, and `property_rate_2020`. You'll need to figure out the proper unit rate, given that there are varying populations. There's no perfect choice; choose the one that works best for you. Save the results to a new dataframe called `md_cities_rates`.
 
 ```{r}
+md_cities_rates <- md_cities |> mutate(violent_rate_2019 = violent2019/pop2019*1000, property_rate_2019 = property2019/pop2019*1000, violent_rate_2020 = violent2020/pop2020*1000 , property_rate_2020 = property2020/pop2020*1000) 
 ```
 
 ### Task 4: Describe the Rates
@@ -30,12 +35,14 @@ Examine the new dataframe, `md_cities_rates`, by clicking on it in the Environme
 
 ANSWER HERE
 
+The highest rates of violent crime seem to come from bigger cities (like Baltimore), while the higher rates of property crime seem to come from smaller towns (Landover Hills). Baltimore has the highest rate of violent crimes both years, while Ocean City has the highest rate of property crime by a landslide. However, in most cities, property crime rates are usually higher than violent crime rates. This shows that there's definitely a correlation in the population and the types of crimes committed. As a beach town, Ocean City probably has a less stable population than other cities and towns (lots of rentals, people traveling in and out), so I think that could affect the crime rates. 
 
 ### Task 5: Calculate Percentage Change
 
 Let's add two percentage change columns to your dataframe: one for violent crime rates and one for property crime rates. You'll calculate the percentage change between 2019 and 2020 for each city. Save the results to a new dataframe called `md_cities_change`.
 
 ```{r}
+md_cities_change <- md_cities_rates |> mutate(violent_percent_change = (violent2020-violent2019)/violent2019*100, property_percent_change = (property2020-property2019)/property2019*100)
 ```
 
 ### Task 7: Describe Percentage Changes
@@ -44,11 +51,19 @@ Look at the `md_cities_change` dataframe by clicking on it in the Environment ta
 
 ANSWER HERE
 
+There are some outliers throughout the data, including the 600% increase in violent crime in Poolesville and the numerous towns that didn't see any change in either violent or property crime. The rates of both property and violent crime during 2020 decrease sharply in most cities, most likely because of the pandemic. But there are a few towns, like Berlin, that saw a 100% or more increase in violent crime. Baltimore saw a large decrease while in both, while Ocean City saw an increase in each. I think the story here his how the pandemic affected these numbers and how percent changes from years prior to the pandemic compare. 
+
+
 ### Task 8: Tell the Best Story
 
 Write up a lede and nutgraf of a story with the _best_ story idea you've found in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
 ANSWER HERE
+
+Violent and property crime decreased in Maryland's most populated cities from 2019 to 2020.
+
+Baltimore, Maryland's most populous city at 588,593 residents, saw a 15% decrease in violent crimes and an almost 28% decrease in property crime. Frederick, with a population of 73,041, experienced a 95% decrease in violent crimes and a nearly 90% decrease in property crime. 
+ 
 
 ### Task 9: Save Your Work and Put it on GitHub
 
