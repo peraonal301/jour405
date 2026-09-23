@@ -48,6 +48,6 @@ car_thefts |>
 
 Is the distribution normal or skewed in one direction? Write a sentence in which you describe the range of the data covered by one standard deviation from the mean on both sides - how much of the data falls in that range?
 
-
+I would say this graph is slightly skewed to the left, as there are a few outliers and most of the data is clustered toward the higher count (or tale-end) of the graph. This graph shows that around eight to 16 people fall within the one standard deviation, or 68%, of the mean.
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
