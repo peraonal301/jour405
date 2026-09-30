@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 # Analyzing Car Theft Data with Z-Scores
 
-## Introduction
+## Introduction - PERA DID THIS ACTIVITY!
 
 In this notebook, you'll analyze monthly car theft data from 2017 to 2025 using z-scores. Z-scores help us identify statistically unusual values in our dataset, which can point to important patterns or outliers that deserve journalistic attention.
 
@@ -269,7 +269,7 @@ When reporting on these findings, remember to:
 4. **Account for Seasonality**: Consider whether values are unusual compared to the same time of year
 
 
-### How likely is a specific car theft month?
+### How likely is a specific car theft month? - PERA DID THIS ACTIVITY!
 
 Let's pick the month with the highest total and walk through the process: calculate its z-score, use `pnorm()` to find the probability, then check against the actual data.
 ```{r pnorm-specific-month}
