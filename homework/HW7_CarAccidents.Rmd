@@ -32,6 +32,7 @@ library(lubridate)  # For working with dates
 Load the accident data from our CSV file at https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/daily_accidents.csv into a dataframe called `accidents`:
 
 ```{r load-data}
+accidents <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/daily_accidents.csv")
 
 ```
 
@@ -69,6 +70,10 @@ ggplot(accidents, aes(x = date, y = total)) +
 Looking at the time series visualization above, identify at least two noticeable patterns or anomalies. What questions would you want to investigate further based on this initial view of the data? How might these visual patterns translate into potential story angles?
 
 ANSWER HERE
+
+There was a significant decline in accidents in the late spring/early summer of 2020, which can be attributed to the pandemic, where people were likely driving around and out of their houses much less than normal. It also seems like mid 2021 yielded slightly more accidents than average, so I'm wondering if this could be when COVID-19 restrictions were easing up before taking hold again going into 2022. 
+
+In terms of individual months, there are mini decreases in accidents during the early spring and late fall months before slight increases in summer and winter months. I find this interesting, since I feel like I've heard that crimes typically decrease in the winter and increase in the summer due to the weather. A story could be done on why in this dataframe, winter and summer rates have more correlatation.
 
 The daily data is quite noisy, so let's also look at weekly patterns:
 
@@ -109,6 +114,8 @@ Based on the day-of-week analysis, which day(s) have the highest and lowest aver
 
 ANSWER HERE
 
+Friday, Saturday, and Sunday have the highest averages and Monday through Thursday has the lowest averages. This makes total sense if you think about how most people are at work during the day on the weekdays, and might be more likely to be driving around on the weekends, whether that be in town on their weekly grocery run or ona weekend trip driving on the highway. I think this is a result of higher traffic on the weekends.
+
 ## Calculating Z-Scores
 
 ### Task 4 (2 points)
@@ -119,9 +126,9 @@ Now, using the accidents dataframe, add three columns using `mutate()`: mean_acc
 # Calculate z-scores for total accidents
 accidents <- accidents |>
   mutate(
-    mean_accidents = REPLACE_ME,
-    sd_accidents = REPLACE_ME,
-    z_score = (REPLACE_ME - REPLACE_ME) / REPLACE_ME
+    mean_accidents = mean(total),
+    sd_accidents = sd(total),
+    z_score = (total - mean_accidents) / sd_accidents
   )
 
 # Display the data with z-scores
@@ -158,6 +165,8 @@ Choose one of the top 10 unusual days and research what might have happened on t
 
 ANSWER HERE
 
+The day before Nov. 16, 2018, NBC4 Washington published a story about the PGCPS chief's apology to families for not closing schools during extra icy weather after facing some backlash. So around this time, there was snow, sleet, and ice across the roads, which probably led to the increase of accidents.  
+
 Let's visualize these unusual days:
 
 ```{r plot-unusual-days}
@@ -186,9 +195,9 @@ Let's calculate z-scores that account for day of week patterns based on the same
 accidents <- accidents |>
   group_by(day_of_week) |>
   mutate(
-    dow_mean = REPLACE_ME,
-    dow_sd = REPLACE_ME,
-    dow_z_score = (REPLACE_ME - REPLACE_ME) / REPLACE_ME
+    dow_mean = mean(total),
+    dow_sd = sd(total),
+    dow_z_score = (total - dow_mean) / dow_sd
   ) |>
   ungroup()
 
@@ -208,6 +217,8 @@ unusual_dow |>
 Compare the days that have extreme z-scores overall versus those with extreme day-of-week z-scores. How do these lists differ? What journalistic insights can you draw from comparing these two different approaches to measuring "unusual" days?
 
 ANSWER HERE
+
+
 
 Let's see how many unusual days we have for each day of the week:
 
@@ -288,6 +299,8 @@ Based on the monthly pattern analysis, which months have the highest and lowest 
 
 ANSWER HERE
 
+October had the highest average by far, with December, November, and May following behind. The Oct-Dec could very likely be because of the larger amount of travel during the holiday season and because of snowy/icy weather. May could be something similar, where people are traveling a bit more than usual due to the academic year being over and it being peak spring-into-summer rainy weather.
+
 ## Identifying Extreme Outliers
 
 Let's look specifically at days with extremely unusual accident counts (z-scores beyond ±3):
@@ -313,7 +326,17 @@ For the extreme outliers identified (z-scores beyond ±3), what do they have in 
 
 ANSWER HERE
 
+Nearly all of them occurred during the weekend and are above three, meaning majority of the outliers were due to a higher number of accidents as opposed to a lower number.
+
 ## Your Best Story Pitch
 
 ### Task 10 (5 points)
 Based on all the analyses performed, craft your best story pitch, including a headline and lede. Be sure to include what kinds of sources/people you'd talk to for the story.
+
+PITCH: Accidents tend to peak around months with more drastic weather conditions, like heavy rain or snow. My story could analyze this and also discuss the initiatives being taken or not taken to prevent accidents.
+
+HL: Prince George's County car accidents surge in drastic weather months 
+
+LEDE: October, November and December have warranted the highest average car accidents in Prince George's County, data from 2017 to now shows. 
+
+SOURCES: county officials, county public safety directors, county police records or county officers/sheriff
