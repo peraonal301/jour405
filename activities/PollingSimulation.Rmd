@@ -6,6 +6,8 @@ In this activity, you'll use data from the 2024 Cooperative Election Study (CES)
 
 Your goal is to see firsthand how sample size affects the accuracy of estimates, and what the distribution of sample estimates actually looks like — the core idea behind the Central Limit Theorem.
 
+hello!
+
 ### Task 1: Load the tidyverse
 
 ```{r}
