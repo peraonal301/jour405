@@ -101,7 +101,7 @@ ggplot(simulations_all, aes(x = proportion)) +
   geom_vline(xintercept = proportion, color = "red", linetype = "dashed", linewidth = 1) +
   facet_wrap(~sample_size) +
   labs(
-    title = "Distribution of Sample Estimates: Share Religiously Unaffiliated",
+    title = "Distribution of Sample Estimates: Share White Evangelicals",
     subtitle = "Red line = true population proportion. Each histogram shows 1,000 simulated polls.",
     x = "Sample Proportion",
     y = "Count",

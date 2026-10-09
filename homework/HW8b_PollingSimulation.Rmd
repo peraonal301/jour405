@@ -9,7 +9,7 @@ That difference matters more than it might seem. When a proportion is close to 5
 ### Task 1: Load the tidyverse
 
 ```{r}
-
+library(tidyverse)
 ```
 
 ### Task 2: Load the CES data
@@ -19,7 +19,7 @@ Load the CES 2024 religion dataset from the same URL as the in-class activity an
 `https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/ces_2024_religion.csv`
 
 ```{r}
-
+ces <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/ces_2024_religion.csv")
 ```
 
 ### Task 3: Calculate the population proportion
@@ -27,7 +27,10 @@ Load the CES 2024 religion dataset from the same URL as the in-class activity an
 Create a new column called `evangelical` that is `TRUE` if a respondent's `trad` value is `"White Evangelical"` and `FALSE` otherwise. Then calculate the proportion of the full dataset that is White Evangelical and save it as `population_proportion`.
 
 ```{r}
+ces <- ces |>
+  mutate(evangelical = trad %in% c("White Evangelical"))
 
+proportion <- mean(ces$evangelical)
 ```
 
 Write down this value. How does it compare to the unaffiliated proportion (about 0.36) from the in-class activity?
@@ -39,24 +42,33 @@ ANSWER HERE
 Use `set.seed(42)` and sample 50 rows from `ces`. Save it as `sample_50`. Calculate the proportion of White Evangelical respondents in your sample.
 
 ```{r}
-
+set.seed(42)
+sample_50 <- ces |> sample_n(50)
+mean(sample_50$evangelical)
 ```
 
 How close is your sample estimate to the population proportion? How does the accuracy compare to what you saw with the unaffiliated group in class?
 
 ANSWER HERE
 
+This sample estimate, 0.16, is significantly lower than the 0.32 I received during our in class activity. 
+
 ### Task 5: Take a single larger sample
 
 Use `set.seed(1966)` and sample 500 rows. Save it as `sample_500`. Calculate the proportion of White Evangelical respondents in this sample.
 
 ```{r}
-
+set.seed(1966)
+sample_500 <- ces |> sample_n(500)
+mean(sample_50$evangelical)
 ```
 
 Did the larger sample improve the estimate? How does the improvement compare to what you saw in class?
 
 ANSWER HERE
+
+The estimate I received is the same as the smaller sample. Hypothetically, this estimate should have been closer to the population proportion value because of its large sample size, but it stayed the same. I'm not sure if I did something wrong here or if this coincidence was expected.
+
 
 ### Task 6: Simulate many polls
 
@@ -82,7 +94,21 @@ simulations_500 <- simulate_polls(ces, 500)
 Create two histograms side by side using the code structure from class. Add a vertical line at `population_proportion`. Make sure to update the title and subtitle to reflect that this simulation is about White Evangelicals.
 
 ```{r}
+simulations_all <- bind_rows(simulations_50, simulations_500) |> 
+  mutate(sample_size = paste("n =", sample_size))
 
+ggplot(simulations_all, aes(x = proportion)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  geom_vline(xintercept = proportion, color = "red", linetype = "dashed", linewidth = 1) +
+  facet_wrap(~sample_size) +
+  labs(
+    title = "Distribution of Sample Estimates: Share White Evangelicals",
+    subtitle = "Red line = true population proportion. Each histogram shows 1,000 simulated polls.",
+    x = "Sample Proportion",
+    y = "Count",
+    caption = "Source: 2024 Cooperative Election Study"
+  ) +
+  theme_minimal()
 ```
 
 ### Task 8: Reflect on what you see
@@ -91,16 +117,24 @@ Create two histograms side by side using the code structure from class. Add a ve
 
 ANSWER HERE
 
+Both histograms look normally distributed and look pretty similar to the graphs we made in class.
+
 **Compare the n=50 and n=500 histograms for this group.** How much does the distribution change with a larger sample? Is the improvement bigger or smaller than what you saw in class with the unaffiliated group?
 
 ANSWER HERE
+
+The distribution changes a lot with the larger sample, becoming much tighter and less spread out (showing there aren't as many outliers as the smaller sample). This is pretty similar to what we were seeing in class, because a larger sample typically warrants this, as proved by central limit theorem.
 
 **A news organization wants to report on White Evangelical voters using a poll of 200 people.** Based on your simulations, roughly how many White Evangelical respondents would that poll be likely to include? What does that suggest about the reliability of estimates for smaller subgroups?
 
 ANSWER HERE
 
+I'm not 100% sure, but I would assume 20, based on the way we've mapped the sample sizes and compared a pool of 50 and to 500. This shows smaller subgroups are less reliable because they aren't as representative of a total population as a bigger group is.
+
 **Imagine you are covering the 2028 presidential election and a campaign shares a poll showing White Evangelical support at 78%.** The poll sampled 400 people. Based on everything you've seen in this assignment and in class, what would you want to know before reporting that number?
 
 ANSWER HERE
+
+I would want to know where was the poll taken from? Were all these people from the same area? Is 400 small or large relative to the entire population that could've been surveyed? If we're going based off the entire U.S. population, this would be a small number and would mean the 78% could very well not be as accurate as a larger sample size.
 
 When finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
