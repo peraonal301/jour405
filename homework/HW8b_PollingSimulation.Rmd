@@ -6,6 +6,8 @@ In class, you simulated polling estimates for the share of Americans who are rel
 
 That difference matters more than it might seem. When a proportion is close to 50%, samples tend to be pretty well-behaved. When it's much smaller — or much larger — samples can behave differently, especially at small sizes. Your job is to run the simulation, compare what you find to the in-class results, and think carefully about what it means for reporting on religion and politics.
 
+finished this
+
 ### Task 1: Load the tidyverse
 
 ```{r}
