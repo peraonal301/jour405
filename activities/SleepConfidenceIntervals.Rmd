@@ -43,6 +43,8 @@ sleep_stats
 
 ANSWER HERE
 
+The mean shows us that students in this sample size are adhering to health standards. Because the sample size is quite a small number, we can't definitively say this is the average of all students and is applicable for all students.
+
 ### Task 3: Calculate the standard error
 
 The standard error tells us how much our sample mean would vary if we took many different samples of 37 students. It's the key to moving from "this is what 37 students told us" to "this is what we think is true for the whole campus." The formula is: standard deviation divided by the square root of the sample size.
@@ -59,6 +61,9 @@ sleep_stats
 **Answer this question:** The standard error is much smaller than the standard deviation. Why? What does each one measure?
 
 ANSWER HERE
+
+The standard error shows as that across different 37-student samples, there is only a small amount of variation between the average. This makes it more credible for majority of students to adhere to the average. The standard of error represents how much the mean would vary with an additional sample, while the standard deviation details the spread within the sample.
+
 
 ### Task 4: Calculate a 95% confidence interval
 
@@ -80,6 +85,8 @@ sleep_stats |>
 **Answer this question:** Write one sentence explaining what this confidence interval means in plain English that a reader would understand.
 
 ANSWER HERE
+
+The confidence interval allows us to calculate a range that shows us where the average falls. 
 
 ### Task 5: Visualize the distribution with the confidence interval
 
@@ -114,6 +121,8 @@ ggplot(sleep_data, aes(x = hours)) +
 
 ANSWER HERE
 
+The confidence interval is more narrow because it's only showing us the range of the mean, not the entire data spread. 
+
 ### Task 6: The CDC question — is 7 hours within the interval?
 
 The CDC recommends at least 7 hours. Based on the confidence interval, can we say students are getting enough sleep? Let's check.
@@ -135,6 +144,8 @@ sleep_stats |>
   c) "Survey: Students Getting Recommended Amount of Sleep"
 
 ANSWER HERE
+
+I think headline C is justified because it is broad enough to encompass the findings, which is that they are acheiving the recommended amount of sleep. 
 
 ### Task 7: What about a bigger sample?
 
