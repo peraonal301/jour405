@@ -59,3 +59,5 @@ weekly_wmata |>
 **Answer this question:** Describe the trend you see. Is ridership going up, down, or staying flat? What are the big dips, and what might explain them? What would you want to know before writing a story about Metro weekly ridership trends?
 
 ANSWER HERE
+
+WMATA ridership increased sharply between beginning-mid 2025, before taking a large dip between the last half of 2025 and the beginning of 2026. Ridership then sharply increased again. The largest dip seems to occur during the winter months of 2025, including November and December, as well as January 2026. It also seems like this dip might have been a pattern, with the way January 2025 also starts off with low-level ridership. I'm wondering if maybe riders were traveling more through vehicles or planes for the holiday months, or maybe were inside more because of colder months. Before writing a story, I would like to see what the previous years' winter month ridership looks like, so I can see if there is actually a pattern or if the dip in our graph is abnormal. 
