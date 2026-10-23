@@ -1,6 +1,6 @@
 ---
 title: "HW9: Car Theft Confidence Intervals & Margin of Error"
-name: REPLACE WITH YOUR NAME
+name: Pera Onal
 ---
 
 Your editor wants to know what a "typical" month of car thefts looks like in Prince George's County. Not just the average — she wants to know how confident you can be in that number. Using monthly figures, confidence intervals and margin of error, you'll come up with an answer and decide whether the data supports a clear story. As with the previous homework, provide answers in this notebook when prompted and you will have to fill in values where you see REPLACE_ME. Get started by loading the tidyverse in a new R block.
@@ -9,7 +9,7 @@ Your editor wants to know what a "typical" month of car thefts looks like in Pri
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-# LOAD THE TIDYVERSE
+library(tidyverse)
 ```
 
 ### Task 2: Load the Prince George's county crime data
@@ -17,8 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 
 # Read the data
-car_thefts <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/car_thefts_month.csv") |>
-  arrange(month)  # Sort by date
+car_thefts <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/car_thefts_month.csv")
+ arrange (month)  # Sort by date
 
 # Basic inspection of the data
 glimpse(car_thefts)
@@ -30,6 +30,8 @@ glimpse(car_thefts)
 We'll make a line chart using geom_line() to try and illustrate any trend over time. What's your initial reaction to the change in car thefts? Is there a trend? If your editor asked you "how many car thefts happen in a typical month?", what would you say based on this chart alone?
 
 PUT ANSWERS HERE
+
+Based off the line chart, the number of car thefts in a typical month decreases from July 2023 to February 2026. There are a few especially sharp decreases in mid/late 2023, early 2024, and early 2025. Here's an overall downward trend, with a some heavier drops in these rates, throughout this time period. Pulling from this chart alone, I would say the average number of car thefts in a month falls between 225 and 475.  
 
 ```{r}
 
@@ -57,12 +59,12 @@ We've got a small number of months, so we need to quantify the uncertainty aroun
 
 ```{r}
 
-theft_summary <- car_thefts |>
+theft_summary <- car_thefts |> 
   summarize(
     mean_thefts = mean(total),
-    sd_thefts = sd(REPLACE_ME),
+    sd_thefts = sd(total),
     months = n(),
-    se_thefts = sd_thefts / sqrt(REPLACE_ME),
+    se_thefts = sd_thefts / sqrt(32),
     margin_error = qt(0.975, df = months - 1) * se_thefts
   )
 
@@ -75,6 +77,8 @@ theft_summary
 
 PUT ANSWERS HERE
 
+Prince George's County averages about 376 car thefts per month, plus or minus around 34 thefts.
+
 ### Task 5: Build the confidence interval
 
 Now let's turn the margin of error into a full confidence interval — the range where we're 95% confident the true average falls. Replace the REPLACE_ME values.
@@ -83,8 +87,8 @@ Now let's turn the margin of error into a full confidence interval — the range
 
 theft_summary <- theft_summary |>
   mutate(
-    ci_lower = mean_thefts - REPLACE_ME,
-    ci_upper = mean_thefts + REPLACE_ME
+    ci_lower = mean_thefts - margin_error,
+    ci_upper = mean_thefts + margin_error
   )
 
 theft_summary |>
@@ -96,11 +100,15 @@ theft_summary |>
 
 PUT ANSWERS HERE
 
+This confidence interval, which gives us a range of where the mean might fall, does not support the claim that car thefts are down by 300 per month. This is because that number is outside the range and margin of error, and more specifically, is smaller than the lower-end confidence interval. 350 would be a plausible claim, because it does fall between this range. 
+
 ### Task 6: Visualize the data with the confidence interval
 
 Let's make a chart showing the data with the mean and the 95% confidence interval. Does this change anything about your answer from Task 3?
 
 PUT ANSWERS HERE
+
+I provided a range of where the possible average could be in my Task 3 response, and the correct average falls within this range. So, I was technically correct, though my broader range was different than the margin of error and the range provided with confidence intervals.
 
 ```{r}
 # Make a chart with the mean and CI
@@ -133,7 +141,7 @@ In class we learned that MoE = 1/√n × 100 as a quick approximation for polls.
 hypothetical_summary <- tibble(
   mean_thefts = theft_summary$mean_thefts,
   sd_thefts = theft_summary$sd_thefts,
-  months = REPLACE_ME,
+  months = 40,
   se_thefts = sd_thefts / sqrt(months),
   margin_error = qt(0.975, df = months - 1) * se_thefts,
   ci_lower = mean_thefts - margin_error,
@@ -157,6 +165,8 @@ comparison
 
 PUT ANSWERS HERE
 
+The margin of error decrease slightly from about 34 to 30, which. means the confidence interval range became a bit tighter. More data gives you a more precise claim, so this means that in order to get this precise claim, you have to spend more time collecting data. In this case, you would have to spend more months collecting data, which would delay the results and analysis of data. I would want maybe 5 years worth of data to make a precise claim, that way, the range goes from just over 300 and 400 to mid 300 and less than 400.
+
 ### Task 8: Reporting with uncertainty
 
 Based on everything you've calculated, answer the following:
@@ -166,6 +176,12 @@ Based on everything you've calculated, answer the following:
 2. Your editor says "Just tell me if car thefts are going up or down." Using only the confidence interval (no significance testing yet), what's the most accurate answer you can give? What would you need to do next to answer that question more definitively?
 
 PUT ANSWERS HERE
+
+Q1) HL: Prince George's County car thefts have largely declined 
+
+    LEDE: Prince George's County averages about 376 car thefts per month, plus or minus around 34 thefts. County data shows an overall decline in car thefts, with a few especially sharp decreases in mid 2023, early 2024 and early 2025. This past February marked the lowest number of car thefts in nearly two years, with only 211 recorded.
+    
+Q2) I can definitively say that car thefts are decreasing. In order to be more confident in this, however, I would want to spend more time collecting data to increase the amount I'm pulling from when making this claim.
 
 
 When you are finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
