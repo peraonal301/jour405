@@ -4,6 +4,7 @@ title: "Hypothesis Testing & Effect Size"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
 ```
 
 ## Did Community Policing Actually Improve Response Times?
@@ -22,9 +23,9 @@ library(tidyverse)
 
 Before we run any tests, we need to state our hypotheses. The null hypothesis is what we assume to be true until we have evidence otherwise — like "innocent until proven guilty." Fill in the REPLACE_ME values.
 
-**Null Hypothesis (H₀):** REPLACE_ME
+**Null Hypothesis (H₀):** There is no meaningful difference in emergency response times. 
 
-**Alternative Hypothesis (H₁):** REPLACE_ME
+**Alternative Hypothesis (H₁):** The program has changed emergency response times. 
 
 ```{r}
 # Response times (in minutes) after the community policing program
@@ -56,8 +57,8 @@ Let's see what the new response times look like. Replace the REPLACE_ME values.
 summary_stats <- response_data |>
   summarize(
     sample_size = n(),
-    sample_mean = mean(REPLACE_ME),
-    sample_sd = sd(REPLACE_ME),
+    sample_mean = mean(response_times),
+    sample_sd = sd(response_times),
     standard_error = sample_sd / sqrt(sample_size)
   )
 
@@ -68,18 +69,20 @@ summary_stats
 
 ANSWER HERE
 
+The sample mean is around 0.5 (or half a minute) lower than the baseline. It's definitely an improvement, but I wouldn't say this is a drastic change. Something I'm interested in is how long after this program was put into effect was this data taken? 
+
 ### Task 4: Perform a one-sample t-test (2 points)
 
 Now we formally test the police chief's claim. Since we're testing whether response times *decreased*, we use a one-sided test (`alternative = "less"`). Replace the REPLACE_ME with the baseline mean we're comparing against.
 
 ```{r}
 # Set our significance level
-alpha <- REPLACE_ME
+alpha <- 0.05
 
 # Perform the t-test
 t_test_result <- t.test(
   response_data$response_time,
-  mu = REPLACE_ME,
+  mu = baseline_mean,
   alternative = "less"
 )
 
@@ -108,6 +111,7 @@ results
 **Answer this question:** Based on the p-value, can we reject the null hypothesis? What does this tell the police chief — and what does it NOT tell him?
 
 ANSWER HERE
+We can't confirm the alternative hypothesis and whether the police chief is correct, but we can confidently reject the null hypothesis. It doesn't tell him that there hasn't been a change. 
 
 ### Task 6: Visualize the results
 
@@ -140,7 +144,7 @@ The formula is: d = (baseline mean - sample mean) / baseline standard deviation
 Replace the REPLACE_ME values.
 
 ```{r}
-effect_size <- (REPLACE_ME - summary_stats$sample_mean) / REPLACE_ME
+effect_size <- (baseline_mean - summary_stats$sample_mean) / baseline_sd
 
 effect_size_interpretation <- case_when(
   abs(effect_size) < 0.2 ~ "Negligible",
@@ -161,6 +165,8 @@ tibble(
 
 ANSWER HERE
 
+I would say that though there was an improvement, our analysis shows that it isn't a meaningful enough difference. 
+
 ### Task 8: The journalist's framework (5 points)
 
 The videos you watched describe two questions you need to ask about any statistical result:
@@ -174,13 +180,25 @@ Apply this framework to the community policing data:
 
 ANSWER HERE
 
+I would say the difference is large enough to show that it is unlikely due to chance and is a result of the program's implementation, because it is above the pvalue and it rejects the null hypothesis. 
+
 **Question 2:** Write 1-2 sentences answering whether the result is meaningfully significant. Consider: the program cost the city $2 million to implement. Is a 25-second improvement in response times worth that investment? What context would you need to answer that question?
 
+
 ANSWER HERE
+
+In order to truly solidify an answer, we would need to understand how much of a difference seconds in dispatches make during specific scenarios. Our data analysis and Cohen's d number shows us that the difference wasn't meaningful enough for the this large of an investment. 
+
 
 **Question 3:** Write a headline and a 2-3 sentence lede for a story about these findings. Your text should accurately reflect both the statistical significance and the effect size — don't let the police chief's framing drive the story if the data tells a more nuanced one.
 
 ANSWER HERE
+
+HL:
+
+LEDE:
+
+Westbrook's new community policy program has changed the speed of which the police department is responding to emergency calls. Data from 20 randomly collected emergency call times since the program's implementation in January shows an about half a minute difference in the speed of the department's emergency responses. 
 
 
 When you are finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
