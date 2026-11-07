@@ -1,6 +1,6 @@
 ---
 title: "HW11: Education Level and Survey Weighting"
-author: "Your Name Here"
+author: Pera Onal
 ---
 
 ```{r setup, include=FALSE}
@@ -48,17 +48,21 @@ ggplot(nonvoters_data, aes(x = weight)) +
 
 ANSWER HERE
 
+A weight of 0.2 tells us that the respondent's opinion doesn't have as much of an influence on the poll results because the respondent comes from a group that is well-represented within this survey. The reverse goes for a weight of 3.5, which shows that the respondents are part of a super underrepresented group. Though not always the case, assigning these weights levels data out and makes it more representative of the general population by boosting the voices of the underrepresented perspectives. 
+
 ## Task 2: Education Distribution in the Sample (3 points)
 
 ```{r education-distribution}
 nonvoters_data |>
-  count(REPLACE_ME) |>
+  count(educ) |>
   mutate(percentage = round(n / sum(n) * 100, 1))
 ```
 
 **Question 2:** College graduates are overrepresented in most surveys. Does that appear to be true here? Why might college graduates be more likely to respond to a survey than people with less education?
 
 ANSWER HERE
+
+The total of respondents with a college degree or some college experience largely outweighs those with a high school degree or less in this survey. My initial thought is that those with a college degree might be less skeptical of a survey and might be more understanding of how it can be useful for researchers, so they might be more eager to contribute. Another scenario could come from the claim that those without a college degree are less likely to vote, and therefore, less likely to fill out a survey regarding something like this.
 
 ## Task 3: Unweighted Voting Intentions by Education (4 points)
 
@@ -89,6 +93,8 @@ unweighted_summary
 
 ANSWER HERE
 
+Citizens without college experience are more unsure of voting in upcoming election, data shows
+
 ## Task 4: Weighted Voting Intentions by Education (2 points)
 
 Now apply the weights. Instead of counting respondents, we sum their weights — so someone with a weight of 2.0 contributes twice as much as someone with a weight of 1.0.
@@ -97,7 +103,7 @@ Now apply the weights. Instead of counting respondents, we sum their weights —
 weighted_by_education <- nonvoters_data |>
   filter(!is.na(Q21), Q21 > 0, !is.na(educ)) |>
   group_by(educ, Q21) |>
-  summarize(weighted_count = sum(REPLACE_ME), .groups = "drop_last") |>
+  summarize(weighted_count = sum(Q21), .groups = "drop_last") |>
   mutate(weighted_total = sum(weighted_count),
          weighted_percentage = weighted_count / weighted_total * 100) |>
   ungroup()
@@ -125,7 +131,7 @@ viz_data <- bind_rows(
   weighted_by_education |>
     filter(Q21 == 1) |>
     mutate(Type = "Weighted",
-           percentage = REPLACE_ME) |>
+           percentage = Q21) |>
     select(Type, educ, percentage)
 )
 
@@ -147,6 +153,8 @@ ggplot(viz_data, aes(x = educ, y = percentage, fill = Type)) +
 
 ANSWER HERE
 
+The respondents with a high school education or less had the most shift, with an increased percentage in those who said they do plan to vote. Based on this, we can say that it doesn't necessarily change that fact that those with some form of college experience or education are more likely to vote than anyone else, and those without are more unsure or don't plan to, but the exact numbers have changed. 
+
 ## Task 6: The UMD Belonging Survey (8 points)
 
 Earlier in class this week, we looked at the 2024 UMD Belonging and Community Survey. That survey had a 23% response rate and the report acknowledged "statistically significant differences" between the sample and the UMD population — but applied no weighting to correct for them.
@@ -154,3 +162,10 @@ Earlier in class this week, we looked at the 2024 UMD Belonging and Community Su
 **Question 5:** Based on what you've learned in this assignment, write 2-3 paragraphs as if you were a reporter evaluating the UMD survey before writing a story based on it. Address: (1) what the lack of weighting means for how you'd use the results, (2) which groups in the UMD survey appeared most underrepresented based on Figures 1 and 2, and (3) what question you would ask the survey's authors before publishing.
 
 ANSWER HERE
+
+1. The lack of weighting on UMD's Belonging and Community survey disproportionately displays community thoughts, because faculty thoughts and responses are overly represented in this survey. Only 23% of the campus community responded to this survey and more than half were faculty. The problems faculty highlight in the survey could be vastly different than those highlighted by students, which could completely change the reporting angle. 
+
+2. White people, specifically faculty members, were the most overrepresented population in this survey. There's a serious lack of racial and ethnic minority representation in these poll responses, which to me seems unfair considering people within that population would hypothetically be facing the most injustice and harmful experience. This makes us unable to report on the fact that the campus culture is amazing, because we aren't hearing from a population who might not have had that same experience.
+
+3. I would want to know how long the survey was open for, what were the methods of sending it out, and whether or not there was direct conversation with different pools of people regarding campus experiences before doing this poll. Its hard to quantify and put experiences into a box, and even harder to take the time to recount a harmful experience that you believe might not be accepted. In order to survey the underrepresented populations, I believe it would have been beneficial to work one-on-one with those groups in addition to widely spreading the survey. 
+
