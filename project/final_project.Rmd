@@ -1,0 +1,37 @@
+---
+title: "final_project"
+output: html_notebook
+---
+
+#MY HYPOTHESIS
+
+Public research universities in or near a large urban city enroll a higher share of international undergraduates.
+
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+```{r}
+
+fall_enrollment <- read_csv("fall_enrollment.csv")
+
+urban_location <- read_csv("urban_location.csv")
+
+public_schools <- ("public_schools.csv")
+
+
+fall_postsecondary_enrollment <- read_csv("https://raw.githubusercontent.com/peraonal301/jour405/refs/heads/main/fall_enrollment.csv")
+```
+
+#DESCRIPTION
+
+I'm having some trouble actually loading my data here, and I really can't figure out why. However, I have three data sets I was attempting to load in (though they seem to be in, they aren't cleaned up tables, so I'm not sure how to fix that).
+
+The first is a basic IPED dataset detailing the fall enrollment numbers from 2002 to 2024 in postsecondary institutions across the U.S., specifically broken down by race and ethnicity (which includes U.S. nonresidents). The earliest collected data here is 2024, but I assume that after the beginning of Trump's second presidential term in 2025, the numbers could look a little different. This also carries totals from every Title IV postsecondary institution and doesn't break it down by specific institution. Regardless, this has the broader information I was looking for regarding enrollment demographics.
+
+The second is the same broader enrollment data, from the same time frame, but details the degree of urbanization of these institutions (so, how close it is to an urban location). This will help as it will provide me the data I was hoping to compare and analyze for a correlation with international enrollment. I did download a dataset with information for numerous different distances (rural, suburb and city), though I could also filter it down and download a smaller dataset with just proximity to cities.
+
+The third breaks down enrollment totals by the control of institutions (public, private, not-for-profit). I filtered it to show just the public institution enrollment numbers from 2002 to 2024. This will help me stick to just public schools in my analysis so I can dissect UMD's position.
+
+The trouble I'm having is whether or not this info is detailed enough, as it looks at enrollment broadly and doesn't get into the specifics of individual institutions. 
