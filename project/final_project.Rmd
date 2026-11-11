@@ -1,6 +1,7 @@
 ---
 title: "final_project"
 output: html_notebook
+name: Pera Onal
 ---
 
 #MY HYPOTHESIS
