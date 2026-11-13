@@ -14,7 +14,7 @@ library(tidyverse)
 ### Task 2: Load the soccer dataset from https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/refs/heads/main/data/ncaa_womens_soccer_matchstats_2026.csv
 
 ```{r}
-matches25 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/refs/heads/main/data/ncaa_womens_soccer_matchstats_2025.csv") |> filter(!is.na(fouls), !is.na(team_score), !is.na(opponent_score))
+matches25 <- read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensSoccerData/refs/heads/main/data/ncaa_womens_soccer_matchstats_2025.csv") |> filter(!is.na(fouls), !is.na(team_score), !is.na(opponent_score), !is.na(so_g))
 ```
 
 
@@ -40,8 +40,8 @@ matches25 |> summarize(correlation = cor(so_g, goal_diff, method="pearson"))
 
 matches25 |> 
   ggplot() +
-  geom_point(aes(x=goal_diff, y=fouls)) +
-  geom_smooth(aes(x=goal_diff, y=fouls), method="lm")
+  geom_point(aes(x=goal_diff, y=so_g)) +
+  geom_smooth(aes(x=goal_diff, y=so_g), method="lm")
 
 ```
 
