@@ -8,6 +8,16 @@ name: Pera Onal
 
 Public research universities in or near a large urban city enroll a higher share of international undergraduates.
 
+#POSSIBLE TESTS (11/16)
+
+The most applicable test for my project is definitely what we did in class last week with testing correlation, creating scatterplots, and calculating the correlation coefficient. This test would be most needed because the central focus of my project is seeing if there is a correlation between a public university's distance from an urban location and the number of international students enrolled. 
+
+Calculating the mean and standard deviation to also examine the spread and distribution of international students at the top 100 public universities could also be useful, just to see which universities have the most international student enrollment and how they all compare to each other.
+
+In order to test my hypothesis, I could maybe calculate the confidence interval or p-value to understand where my claim stands. However, I'm little unsure about this test, since I feel like testing the correlation would be more useful for my specific scenario.
+
+After looking at past assignments, I think these tests would be the best options for my project, since its mainly an analysis of comparison and correlation. 
+
 ```{r}
 library(tidyverse)
 library(readr)
