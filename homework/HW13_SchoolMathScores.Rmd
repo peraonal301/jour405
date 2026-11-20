@@ -1,6 +1,6 @@
 ---
 title: "Identifying Schools with Biggest Differences in Math Test Scores, Part 2"
-author: "YOUR NAME"
+author: "Pera Onal"
 ---
 
 ```{r}
@@ -32,6 +32,7 @@ Are there any data quality issues like the ones you found in the Pennsylvania da
 
 ANSWER HERE
 
+The mean is higher than the median value, which is telling as that the data is skewed one way, near potential outliers. However, compared to the PA data, the MD data is a lot less unrealistic and skewed. There is one large outlier in this data, with the max value at 96% for students enrolled in FARMS, but it isn't anything like the numerous 100% values we saw with the PA data.
 
 ### Task 2: Create a Scatterplot and Compare (5 points)
 
@@ -39,7 +40,7 @@ Replace the REPLACE_ME value with the correct variable name to create a scatterp
 
 ```{r}
 schools |>
-  ggplot(aes(x = `REPLACE_ME`, y = `% Met or Exceeded Math Expectations`)) +
+  ggplot(aes(x = `FARMS Pct`, y = `% Met or Exceeded Math Expectations`)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, color = "red") +
   labs(x = "FARMS Percentage", y = "% Met or Exceeded Math Expectations",
@@ -50,13 +51,14 @@ Describe what you see. Then compare this scatterplot specifically to the Pennsyl
 
 ANSWER HERE
 
+This scatterplot is quite different from the one we saw with PA. While the points with that one were clustered around a specific part of the graf, this one sticks closely to the line of best fit in a clear regression. Just by looking at this graph, I can deduce that in MoCo, MD, higher FARMS percentages could correlate with lower math scores.
 
 ### Task 3: Linear Regression Model (5 points)
 
 Replace the REPLACE_ME value with the correct variable name to run a linear regression model predicting math scores from FARMS percentage.
 
 ```{r}
-model <- lm(`REPLACE_ME` ~ `FARMS Pct`, data = schools)
+model <- lm(`% Met or Exceeded Math Expectations` ~ `FARMS Pct`, data = schools)
 summary(model)
 ```
 
@@ -64,6 +66,7 @@ Report the three key statistics: the p-value, the Adjusted R-squared, and the co
 
 ANSWER HERE
 
+The p-value is much lower than the 0.05 threshold, which shows us the test is significant. The R-squared value at 67.34% is incredibly notable compared to the PA value of about 2%, because this shows that the FARMS percentage makes up almost 3/4 of cause in the math score rates. The coefficient at -0.595 shows us that the FARMS percentage has a strong correlation with low math scores. All three of these values tell us there is a clear correlation between a large FARMS enrollment and low math testing score. This is starkly different from the model created with the PA dataset.
 
 ### Task 4: Identifying Schools with the Biggest Residuals (6 points)
 
@@ -72,13 +75,14 @@ Replace the REPLACE_ME values with the correct variable names to calculate predi
 ```{r}
 schools <- schools |>
   mutate(
-    predicted = predict(REPLACE_ME),
+    predicted = predict(model),
     residual = `% Met or Exceeded Math Expectations` - predicted,
-    abs_residual = abs(REPLACE_ME)
+    abs_residual = abs(residual)
   ) |>
   arrange(desc(abs_residual))
 
 head(schools |> select(1, `FARMS Pct`, `% Met or Exceeded Math Expectations`, predicted, residual), 10)
+
 ```
 
 Identify the school with the largest positive residual (doing much better than the model predicts) and the school with the largest negative residual (doing much worse). For each school, find its zip code and look it up on [CensusReporter.org](https://censusreporter.org).
@@ -90,6 +94,10 @@ For each of the two schools, answer:
 
 ANSWER HERE
 
+It seems like Wayside Elementary has the largest positive residual, at 56.46, and Stedwick has the largest negative residual, at -55.05, out of all ten values listed here.
+
+
+The median household income at the location of Wayside (20854) is about $250,000 and the population is about 58% white. The median household income at the location of Stedwick (20886) is majority (33%) Hispanic. These could all be factors as to why the FARMS enrollment is higher in Stedwick as opposed to Wayside. I would like to ask the principal about the schools demographics and what the socioeconomic makeup of its students specifically might look like.
 
 ### Task 5: Evaluate the Model and Write the Pitch (7 points)
 
@@ -98,3 +106,5 @@ You've now run this analysis on two counties. Return to the school board member'
 Write a short story pitch of 4-6 sentences that addresses all of the following: Does the Maryland data support or contradict the claim? How does it compare to what you found in Pennsylvania? What would you ask the school board member if you called them for comment? And what's the most interesting specific finding from your residuals analysis: which school would you want to visit first, and why?
 
 ANSWER HERE
+
+Maryland's data supports the claim that an increased percentage of students enrolled in FARMS has a correlation with lower math testing scores. This result contradicts what we saw in the model created using Pennsylvania's data, which showed incredibly little to no correlation between the two. Looking at Maryland's data, I would want to visit the schools with lower residuals to learn more about the student demographics and how they compare to others and their town's demographics as a whole. Additionally, I would like to learn a little more about how students can be eligible for the FARMS program, and if this has any influence or sway on the percentages in each school.
