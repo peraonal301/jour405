@@ -8,34 +8,7 @@ name: Pera Onal
 
 Public research universities in or near a large urban city enroll a higher share of international undergraduates.
 
-#POSSIBLE TESTS (11/16)
-
-The most applicable test for my project is definitely what we did in class last week with testing correlation, creating scatterplots, and calculating the correlation coefficient. This test would be most needed because the central focus of my project is seeing if there is a correlation between a public university's distance from an urban location and the number of international students enrolled. 
-
-Calculating the mean and standard deviation to also examine the spread and distribution of international students at the top 100 public universities could also be useful, just to see which universities have the most international student enrollment and how they all compare to each other.
-
-In order to test my hypothesis, I could maybe calculate the confidence interval or p-value to understand where my claim stands. However, I'm little unsure about this test, since I feel like testing the correlation would be more useful for my specific scenario.
-
-After looking at past assignments, I think these tests would be the best options for my project, since its mainly an analysis of comparison and correlation. 
-
-```{r}
-library(tidyverse)
-library(readr)
-```
-
-```{r}
-
-fall_enrollment <- read_csv("fall_enrollment.csv")
-
-urban_location <- read_csv("urban_location.csv")
-
-public_schools <- ("public_schools.csv")
-
-
-fall_postsecondary_enrollment <- read_csv("https://raw.githubusercontent.com/peraonal301/jour405/refs/heads/main/fall_enrollment.csv")
-```
-
-#DESCRIPTION
+#DESCRIPTION (11/9)
 
 I'm having some trouble actually loading my data here, and I really can't figure out why. However, I have three data sets I was attempting to load in (though they seem to be in, they aren't cleaned up tables, so I'm not sure how to fix that).
 
@@ -46,3 +19,89 @@ The second is the same broader enrollment data, from the same time frame, but de
 The third breaks down enrollment totals by the control of institutions (public, private, not-for-profit). I filtered it to show just the public institution enrollment numbers from 2002 to 2024. This will help me stick to just public schools in my analysis so I can dissect UMD's position.
 
 The trouble I'm having is whether or not this info is detailed enough, as it looks at enrollment broadly and doesn't get into the specifics of individual institutions. 
+
+#POSSIBLE TESTS (11/16)
+
+The most applicable test for my project is definitely what we did in class last week with testing correlation, creating scatterplots, and calculating the correlation coefficient. This test would be most needed because the central focus of my project is seeing if there is a correlation between a public university's distance from an urban location and the number of international students enrolled. 
+
+Calculating the mean and standard deviation to also examine the spread and distribution of international students at the top 100 public universities could also be useful, just to see which universities have the most international student enrollment and how they all compare to each other.
+
+In order to test my hypothesis, I could maybe calculate the confidence interval or p-value to understand where my claim stands. However, I'm little unsure about this test, since I feel like testing the correlation would be more useful for my specific scenario.
+
+After looking at past assignments, I think these tests would be the best options for my project, since its mainly an analysis of comparison and correlation. 
+
+
+```{r}
+library(tidyverse)
+library(readr)
+```
+
+```{r}
+college_data <- read_csv("public_research_international_2023.csv")
+```
+
+
+# TRIALS, ERRORS AND LESSONS (11/24)
+
+# breaking down the table
+
+```{r}
+college_data |> 
+  summarize(mean_international_pct = mean(international_pct, na.rm = TRUE), 
+  sd_international_pct = sd(international_pct, na.rm = TRUE), 
+  median_international_pct = median(international_pct, na.rm = TRUE),
+  max_international_pct = max(international_pct, na.rm = TRUE),
+  min_international_pct = min(international_pct, na.rm = TRUE))
+```
+# what does this tell me?
+
+The mean international percentage  of 3.36% is only slightly higher than the median percentage of 3.38%. I find it interesting that the media is much lower than the maximum percentage of 14.68%, belonging to Wichita State. This could mean there are some hefty outliers in my data.
+
+The minimum value is set at zero for University of Puerto Rico. This makes sense, because what even constitutes an international student for a country in a U.S. territory? Maybe they don't track sort of data because of this? It could also be good to get rid of this specific university in my data, in the event that it causes a slight imbalance in my calculations.
+
+Just glancing at the data, it seems like city/suburban universities do tend do have an international undergraduate population on the higher side of this data set, while town/rural universities lean toward the lower side. But like any dataset, there are some mixes here and there. For example, Texas State University is a city/suburb with about 0.8%, while Washington State, a town/rural, is at nearly 3%.
+
+
+# creating plots
+
+```{r}
+college_data |> 
+  ggplot() +
+  geom_point(aes(x= total_undergraduates, y=international_undergraduates, label=school)) +
+  geom_smooth(aes(x=total_undergraduates, y=international_undergraduates, method="lm"))
+```
+
+
+```{r}
+college_data |> 
+  ggplot() +
+  geom_point(aes(x= total_undergraduates, y=international_pct, label=school)) +
+  geom_smooth(aes(x=total_undergraduates, y=international_pct, method="lm"))
+```
+
+
+# what does this tell me?
+
+I went back and forth trying to think which variable to put on the graphs, because none of the qualitative categories (like location or location group) worked with the format of these scatter plots. I ended up settling on comparing total undergraduates with international percentage makeups and with international undergraduate totals. However, I'm not sure if these were the best ways to examine this data or if there's another graph format we haven't learned that would work better.
+
+Regardless, both scatterplots show something similar: most universities with a smaller population of total undergraduates have lower percentages or populations of international students.
+
+
+# two sample t-test
+```{r}
+
+t_test_periods <- t.test(international_pct ~ location_group, data = college_data)
+
+t_test_periods
+```
+
+
+# what does this tell me?
+
+The p-value of 0.001 is below the 0.05 threshold, which shows me that the null hypothesis (both city/suburb and town/rural universities have the same international percentage) can be rejected. However, this doesn't tell me how much of a difference between the two groups there are. 
+
+# what i received help on
+
+Besides the help I received from Prof. Willis with loading my initial data, I only ran into trouble during my first task of calculating the mean (and those other values along with it). I kept getting N/A as a value to my calculations and couldn't understand why, so I used AI to explain why my code was giving me N/A values. Turns out it was because I hadn't filtered out the international percentages with a value of N/A in the dataframe, so I used the code "na.rm = TRUE" to do so. 
+
+If I did run into any other problems, I basically just sorted them out myself by changing little things in my code that I thought could've been causing me problems. However, everything ran fine without any errors in the end.
